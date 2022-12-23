@@ -33,8 +33,13 @@ public class JUnitTestCaseStructure {
     }
 
     public JUnitTestCaseStructure(String testCasePackage, String entityName, String entityClass, String postfix, CustomResourceLoader loader, Set<String> additionalExtends) {
-        this.loader = loader;
-        String testCaseName = entityName + postfix;
+	buildJavaCode(testCasePackage, entityName, entityClass, postfix, loader, additionalExtends);
+    }
+    
+    protected void buildJavaCode(String testCasePackage, String entityName, String entityClass, String postfix, CustomResourceLoader loader, Set<String> additionalExtends) {
+	this.loader = loader;
+	String testCaseName = entityName + postfix;
+	        
 //        Tuple<String, Boolean> entityId = getEntityId(entityClass);
 //        if(entityId != null) {
 
@@ -43,9 +48,9 @@ public class JUnitTestCaseStructure {
                     .addImport("org.junit.jupiter.api.AfterEach")
                     .addImport("org.junit.jupiter.api.BeforeEach")
                     .addImport("org.junit.jupiter.api.Test")
-                    .addMethod(createSetupMethod())
-            	    .addMethod(createTearDownMethod())
-  		    .addMethod(createTestCaseMethod("given_when_then"));
+                    .addMethod(createSetup())
+            	    .addMethod(createTearDown())
+  		    .addMethod(createTestCase("given_when_then"));
 //                    .addAnnotation("Repository")
 //                    .addExtend("JpaRepository", entityName, GeneratorUtils.getSimpleClassName(entityId.left()))
 //                    .addExtend("JpaSpecificationExecutor", entityName);
@@ -60,7 +65,7 @@ public class JUnitTestCaseStructure {
 //        }
     }
     
-    private ObjectMethod createSetupMethod() {
+    protected ObjectMethod createSetup() {
    	ObjectMethod objectMethod = new ObjectMethod(ScopeValues.PUBLIC, "setUp");
    	objectMethod.addAnnotation("@BeforeEach");
    	StringBuilder sb = new StringBuilder();
@@ -69,7 +74,7 @@ public class JUnitTestCaseStructure {
 	return objectMethod;
     }
     
-    private ObjectMethod createTearDownMethod() {
+    protected ObjectMethod createTearDown() {
    	ObjectMethod objectMethod = new ObjectMethod(ScopeValues.PUBLIC, "tearDown");
    	objectMethod.addAnnotation("@AfterEach");
    	StringBuilder sb = new StringBuilder();
@@ -78,7 +83,7 @@ public class JUnitTestCaseStructure {
 	return objectMethod;
     }
     
-    private ObjectMethod createTestCaseMethod(String methodName) {
+    protected ObjectMethod createTestCase(String methodName) {
 	ObjectMethod objectMethod = new ObjectMethod(ScopeValues.PUBLIC, methodName);
 	objectMethod.addAnnotation("@Test");
 
