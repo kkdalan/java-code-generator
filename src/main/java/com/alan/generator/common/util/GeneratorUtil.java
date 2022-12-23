@@ -14,17 +14,25 @@ public class GeneratorUtil {
 
     private GeneratorUtil() {
     }
+    
+    public static String getMainFolderAbsolutePath() {
+	return getAbsolutePath("/src/main/java/");
+    }
 
-    public static String getAbsolutePath() {
+    public static String getTestFolderAbsolutePath() {
+	return getAbsolutePath("/src/test/java/");
+    }
+
+    public static String getAbsolutePath(String folder) {
 	try {
-	    return new File(".").getCanonicalPath() + "/src/main/java/";
+	    return new File(".").getCanonicalPath() + folder;
 	} catch (IOException e) {
 	    return null;
 	}
     }
 
-    public static String getAbsolutePath(String strPackage) {
-	String absolute = getAbsolutePath();
+    public static String getPackageAbsolutePath(String strPackage) {
+	String absolute = getMainFolderAbsolutePath();
 	if (absolute == null) {
 	    return null;
 	}
