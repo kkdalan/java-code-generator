@@ -1,4 +1,4 @@
-package com.alan.generator.jpa;
+package com.alan.generator.junit;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -19,7 +19,7 @@ import com.cmeza.sdgenerator.util.GeneratorUtils;
 import com.cmeza.sdgenerator.util.SDLogger;
 import com.google.common.collect.Iterables;
 
-public class JPAGeneratorManager implements ImportBeanDefinitionRegistrar, EnvironmentAware, ResourceLoaderAware {
+public class JUnitGeneratorManager implements ImportBeanDefinitionRegistrar, EnvironmentAware, ResourceLoaderAware {
 
     private Environment environment;
     private ResourceLoader resourceLoader;
@@ -39,20 +39,20 @@ public class JPAGeneratorManager implements ImportBeanDefinitionRegistrar, Envir
         Assert.notNull(annotationMetadata, "AnnotationMetadata must not be null!");
         Assert.notNull(beanDefinitionRegistry, "BeanDefinitionRegistry must not be null!");
 
-        if(annotationMetadata.getAnnotationAttributes(JPAGenerator.class.getName()) != null) {
+        if(annotationMetadata.getAnnotationAttributes(JUnitGenerator.class.getName()) != null) {
 
-            AnnotationAttributes attributes = new AnnotationAttributes(annotationMetadata.getAnnotationAttributes(JPAGenerator.class.getName()));
+            AnnotationAttributes attributes = new AnnotationAttributes(annotationMetadata.getAnnotationAttributes(JUnitGenerator.class.getName()));
 
-            String repositoryPackage = attributes.getString("repositoryPackage");
+            String testCasePackage = attributes.getString("testCasePackage");
             String managerPackage = attributes.getString("managerPackage");
 
-            if (!managerPackage.isEmpty() && repositoryPackage.isEmpty()) {
+            if (!managerPackage.isEmpty() && testCasePackage.isEmpty()) {
                 SDLogger.error("Repositories must be generated before generating managers");
                 return;
             }
 
-            if (!repositoryPackage.isEmpty() || !managerPackage.isEmpty()){
-                JPAScanningConfigurationSupport configurationSource = new JPAScanningConfigurationSupport(annotationMetadata, attributes, this.environment);
+            if (!testCasePackage.isEmpty() || !managerPackage.isEmpty()){
+                JUnitScanningConfigurationSupport configurationSource = new JUnitScanningConfigurationSupport(annotationMetadata, attributes, this.environment);
 
                 Collection<BeanDefinition> candidates = configurationSource.getCandidates(resourceLoader);
 
@@ -62,23 +62,23 @@ public class JPAGeneratorManager implements ImportBeanDefinitionRegistrar, Envir
                     return;
                 }
 
-                if (!repositoryPackage.isEmpty()){
+                if (!testCasePackage.isEmpty()){
 
-                    String repositoriesPath = absolutePath + repositoryPackage.replace(".", "/");
+                    String testCasesPath = absolutePath + testCasePackage.replace(".", "/");
                     Set<String> additionalExtends = this.validateExtends(attributes.getClassArray("additionalExtends"));
                     if (additionalExtends != null) {
-                        JPARepositoryTemplateSupport repositoryTemplateSupport = new JPARepositoryTemplateSupport(attributes, additionalExtends);
-                        repositoryTemplateSupport.initializeCreation(repositoriesPath, repositoryPackage, candidates, Iterables.toArray(configurationSource.getBasePackages(), String.class));
+                        JUnitTestCaseTemplateSupport testCaseTemplateSupport = new JUnitTestCaseTemplateSupport(attributes, additionalExtends);
+                        testCaseTemplateSupport.initializeCreation(testCasesPath, testCasePackage, candidates, Iterables.toArray(configurationSource.getBasePackages(), String.class));
                     }
                 }
 
-                if (!repositoryPackage.isEmpty() && !managerPackage.isEmpty()) {
+                if (!testCasePackage.isEmpty() && !managerPackage.isEmpty()) {
 
                     String managerPath = absolutePath + managerPackage.replace(".", "/");
 
-                    String repositoryPostfix = attributes.getString("repositoryPostfix");
+                    String testCasePostfix = attributes.getString("testCasePostfix");
 
-                    JPAManagerTemplateSupport managerTemplateSupport = new JPAManagerTemplateSupport(attributes, repositoryPackage, repositoryPostfix);
+                    JUnitManagerTemplateSupport managerTemplateSupport = new JUnitManagerTemplateSupport(attributes, testCasePackage, testCasePostfix);
                     managerTemplateSupport.initializeCreation(managerPath, managerPackage, candidates, Iterables.toArray(configurationSource.getBasePackages(), String.class));
                 }
 

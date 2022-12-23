@@ -21,9 +21,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'commons-codec:commons-codec'
 	implementation 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
-	
 	runtimeOnly 'org.postgresql:postgresql'
 	
+	implementation 'org.springframework.boot:spring-boot-starter-test'
+ 
 }
 
 test {

@@ -1,4 +1,4 @@
-package com.alan.generator.jpa;
+package com.alan.generator.junit;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 
 import com.alan.generator.common.support.JavaCodeBuilder;
 import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure;
+import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure.ObjectMethod;
+import com.cmeza.sdgenerator.support.maker.values.CommonValues;
 import com.cmeza.sdgenerator.support.maker.values.ObjectTypeValues;
 import com.cmeza.sdgenerator.support.maker.values.ScopeValues;
 import com.cmeza.sdgenerator.util.CustomResourceLoader;
@@ -20,7 +22,7 @@ import com.cmeza.sdgenerator.util.SDLogger;
 import com.cmeza.sdgenerator.util.Tuple;
 
 
-public class JPARepositoryStructure {
+public class JUnitTestCaseStructure {
 
     private CustomResourceLoader loader;
     private JavaCodeBuilder javaCodeBuilder;
@@ -37,21 +39,23 @@ public class JPARepositoryStructure {
         mapConvert.put(double.class, Double.class);
     }
 
-    public JPARepositoryStructure(String repositoryPackage, String entityName, String entityClass, String postfix, CustomResourceLoader loader, Set<String> additionalExtends) {
+    public JUnitTestCaseStructure(String testCasePackage, String entityName, String entityClass, String postfix, CustomResourceLoader loader, Set<String> additionalExtends) {
         this.loader = loader;
-        String repositoryName = entityName + postfix;
-        Tuple<String, Boolean> entityId = getEntityId(entityClass);
-        if(entityId != null) {
+        String testCaseName = entityName + postfix;
+//        Tuple<String, Boolean> entityId = getEntityId(entityClass);
+//        if(entityId != null) {
 
-            ObjectStructure objectStructure = new ObjectStructure(repositoryPackage, ScopeValues.PUBLIC, ObjectTypeValues.INTERFACE, repositoryName)
+            ObjectStructure objectStructure = new ObjectStructure(testCasePackage, ScopeValues.PUBLIC, ObjectTypeValues.CLASS, testCaseName)
                     .addImport(entityClass)
-                    .addImport("org.springframework.data.jpa.repository.JpaRepository")
-                    .addImport("org.springframework.data.jpa.repository.JpaSpecificationExecutor")
-                    .addImport("org.springframework.stereotype.Repository")
-                    .addImport(entityId.right() ? entityId.left() : "")
-                    .addAnnotation("Repository")
-                    .addExtend("JpaRepository", entityName, GeneratorUtils.getSimpleClassName(entityId.left()))
-                    .addExtend("JpaSpecificationExecutor", entityName);
+                    .addImport("org.junit.jupiter.api.AfterEach")
+                    .addImport("org.junit.jupiter.api.BeforeEach")
+                    .addImport("org.junit.jupiter.api.Test")
+                    .addMethod(createSetupMethod())
+            	    .addMethod(createTearDownMethod())
+  		    .addMethod(createTestCaseMethod("given_when_then"));
+//                    .addAnnotation("Repository")
+//                    .addExtend("JpaRepository", entityName, GeneratorUtils.getSimpleClassName(entityId.left()))
+//                    .addExtend("JpaSpecificationExecutor", entityName);
 
             if (additionalExtends != null) {
                 for(String additionalExtend : additionalExtends) {
@@ -60,9 +64,49 @@ public class JPARepositoryStructure {
                 }
             }
             this.javaCodeBuilder = new JavaCodeBuilder(objectStructure);
-        }
+//        }
     }
+    
+    private ObjectMethod createSetupMethod() {
+   	ObjectMethod objectMethod = new ObjectMethod(ScopeValues.PUBLIC, "setUp");
+   	objectMethod.addAnnotation("@BeforeEach");
+   	StringBuilder sb = new StringBuilder();
+   	sb.append(buildBodyAtNewLine("// TODO"));
+   	objectMethod.setBody(sb.toString());
+	return objectMethod;
+    }
+    
+    private ObjectMethod createTearDownMethod() {
+   	ObjectMethod objectMethod = new ObjectMethod(ScopeValues.PUBLIC, "tearDown");
+   	objectMethod.addAnnotation("@AfterEach");
+   	StringBuilder sb = new StringBuilder();
+   	sb.append(buildBodyAtNewLine("// TODO"));
+   	objectMethod.setBody(sb.toString());
+	return objectMethod;
+    }
+    
+    private ObjectMethod createTestCaseMethod(String methodName) {
+	ObjectMethod objectMethod = new ObjectMethod(ScopeValues.PUBLIC, methodName);
+	objectMethod.addAnnotation("@Test");
 
+	StringBuilder sb = new StringBuilder();
+	sb.append(buildBodyAtNewLine("// GIVEN"));
+	sb.append(buildBodyAtNewLine("// TODO"));
+	sb.append(buildBodyAtNewLine(""));
+	sb.append(buildBodyAtNewLine("// WHEN"));
+	sb.append(buildBodyAtNewLine("// TODO"));
+	sb.append(buildBodyAtNewLine(""));
+	sb.append(buildBodyAtNewLine("// THEN"));
+	sb.append(buildBodyAtNewLine("// TODO"));
+	objectMethod.setBody(sb.toString());
+	
+	return objectMethod;
+    }
+    
+    public static String buildBodyAtNewLine(String bodyLine) {
+        return CommonValues.TAB.getValue() + bodyLine + CommonValues.NEWLINE.getValue();
+    }
+    
     @SuppressWarnings("unchecked")
     private Tuple<String, Boolean> getEntityId(String entityClass){
         try {
