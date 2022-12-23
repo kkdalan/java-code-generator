@@ -15,6 +15,7 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import com.alan.generator.common.util.GeneratorUtil;
 import com.cmeza.sdgenerator.util.CustomResourceLoader;
 import com.cmeza.sdgenerator.util.GeneratorUtils;
 import com.cmeza.sdgenerator.util.SDLogger;
@@ -51,7 +52,7 @@ public abstract class AbstractTemplateSupportProvider {
     public void initializeCreation(String path, String ePackage, Collection<BeanDefinition> candidates, String[] entityPackage) {
         int generatedCount = 0;
 
-        if(!GeneratorUtils.verifyPackage(path)){
+        if(!GeneratorUtil.verifyPackage(path)){
             return;
         }
 
@@ -184,7 +185,7 @@ public abstract class AbstractTemplateSupportProvider {
             additionalFolders.sort((a, b)-> Integer.compare(b.length(), a.length()));
             String additional = path + "/" + additionalFolders.get(0);
             String pathAdditional = additional.replace(".", "/");
-            GeneratorUtils.verifyPackage(pathAdditional);
+            GeneratorUtil.verifyPackage(pathAdditional);
             return additionalFolders.get(0);
         }
         return "";
