@@ -3,6 +3,9 @@ package com.alan.generator.junit.structure;
 import java.lang.reflect.Field;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 import com.alan.generator.common.support.BuildHelper;
 import com.alan.generator.common.support.JavaCodeBuilder;
 import com.alan.generator.common.support.ObjectStructure;
@@ -28,23 +31,19 @@ public class ControllerTestCaseStructure extends JUnitTestCaseStructure {
                   .addImport("org.junit.jupiter.api.Test")
                   .addImport("org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest")
                   .addImport("org.springframework.test.web.servlet.MockMvc")
-                  .addImport("org.springframework.beans.factory.annotation.Autowired")
+                  .addImport(Autowired.class)
+                  .addImport(MockBean.class)
                   .addImport("com.alan.generator.junit.testcase.base.BaseControllerTest")
                   .addAnnotation("WebMvcTest(controllers = " + entityName + ".class)")
                   .addExtend("BaseControllerTest");
 
-  	objectStructure.addAttribute("MockMvc", "mockMvc");
+  	objectStructure.addAttribute("MockMvc", "mockMvc", Autowired.class);
   	
 	Class<?> entityClazz = loadClass(entityClass);
 	for (Field field : entityClazz.getDeclaredFields()) {
 	    objectStructure.addImport(field.getType());
-	    objectStructure.addAttribute(field.getType().getSimpleName(), field.getName());
+	    objectStructure.addAttribute(field.getType().getSimpleName(), field.getName(), MockBean.class);
 	}
-  	
-//  	objectStructure.addConstructor(new ObjectStructure.ObjectConstructor(ScopeValues.PUBLIC, testCaseName)
-//                     .addAnnotation(Autowired.class)
-//                     .addArgument(testCaseName, testCaseNameAttribute)
-//                     .addBodyLine(ObjectValues.THIS.getValue() + testCaseNameAttribute + ExpressionValues.EQUAL.getValue() + testCaseNameAttribute)
   	
   	objectStructure.addMethod(createTestCase("given_when_then"));
   	 

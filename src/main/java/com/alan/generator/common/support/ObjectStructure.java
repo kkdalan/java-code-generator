@@ -13,7 +13,6 @@ import com.cmeza.sdgenerator.support.maker.values.CommonValues;
 import com.cmeza.sdgenerator.support.maker.values.ObjectTypeValues;
 import com.cmeza.sdgenerator.support.maker.values.ObjectValues;
 import com.cmeza.sdgenerator.support.maker.values.ScopeValues;
-import com.cmeza.sdgenerator.util.BuildUtils;
 
 public class ObjectStructure {
 
@@ -34,68 +33,68 @@ public class ObjectStructure {
 
     public ObjectStructure(String objectPackage, ScopeValues objectScope, ObjectTypeValues objectType,
 	    String objectName) {
-	this.objectPackage = BuildUtils.buildPackage(objectPackage);
+	this.objectPackage = BuildHelper.buildPackage(objectPackage);
 	this.objectScope = objectScope;
 	this.objectType = objectType;
-	this.objectName = BuildUtils.cleanSpaces(objectName);
+	this.objectName = BuildHelper.cleanSpaces(objectName);
 //        this.objectExtend = "";
 	this.objectRawBody = "";
     }
 
     public ObjectStructure setPackage(String objectPackage) {
 	if (!objectPackage.isEmpty()) {
-	    this.objectPackage = BuildUtils.buildPackage(objectPackage);
+	    this.objectPackage = BuildHelper.buildPackage(objectPackage);
 	}
 	return this;
     }
 
     public ObjectStructure addImport(String objectImport) {
 	if (!objectImport.isEmpty()) {
-	    this.objectImports.add(BuildUtils.buildImport(objectImport));
+	    this.objectImports.add(BuildHelper.buildImport(objectImport));
 	}
 	return this;
     }
 
     public ObjectStructure addImport(Class<?> clazz) {
 	if (clazz != null) {
-	    this.objectImports.add(BuildUtils.buildImport(clazz.getName()));
+	    this.objectImports.add(BuildHelper.buildImport(clazz.getName()));
 	}
 	return this;
     }
 
     public ObjectStructure addAnnotation(String annotation) {
 	if (!annotation.isEmpty()) {
-	    this.objectAnnotations.add(BuildUtils.buildAnnotation(annotation));
+	    this.objectAnnotations.add(BuildHelper.buildAnnotation(annotation));
 	}
 	return this;
     }
 
     public ObjectStructure addAnnotation(Class<?> clazz) {
 	if (clazz != null) {
-	    this.objectAnnotations.add(BuildUtils.buildAnnotation(clazz.getSimpleName()));
+	    this.objectAnnotations.add(BuildHelper.buildAnnotation(clazz.getSimpleName()));
 	}
 	return this;
     }
 
     public ObjectStructure addImplement(String objectImplement, Object... objects) {
-	this.objectImplements.add(BuildUtils.builDiamond(objectImplement, objects));
+	this.objectImplements.add(BuildHelper.builDiamond(objectImplement, objects));
 	return this;
     }
 
     public ObjectStructure addImplement(Class<?> clazz, Object... objects) {
 	if (clazz != null) {
-	    this.objectImplements.add(BuildUtils.builDiamond(clazz.getSimpleName(), objects));
+	    this.objectImplements.add(BuildHelper.builDiamond(clazz.getSimpleName(), objects));
 	}
 	return this;
     }
 
     public ObjectStructure addExtend(String objectExtend, Object... objects) {
-	this.objectExtends.add(BuildUtils.builDiamond(objectExtend, objects));
+	this.objectExtends.add(BuildHelper.builDiamond(objectExtend, objects));
 	return this;
     }
 
     public ObjectStructure addExtend(Class<?> clazz, Object... objects) {
-	this.objectExtends.add(BuildUtils.builDiamond(clazz.getSimpleName(), objects));
+	this.objectExtends.add(BuildHelper.builDiamond(clazz.getSimpleName(), objects));
 	return this;
     }
 
@@ -112,7 +111,14 @@ public class ObjectStructure {
     }
 
     public ObjectStructure addAttribute(String attributeClass, String attribute) {
-	this.objectAttributes.add(BuildUtils.buildAttribute(attributeClass, attribute));
+	this.objectAttributes.add(BuildHelper.buildAttribute(attributeClass, attribute));
+	return this;
+    }
+
+    public ObjectStructure addAttribute(String attributeClass, String attribute, Class<?> annotationClazz) {
+	this.objectAttributes
+		.add(CommonValues.TAB.getValue() + BuildHelper.buildAnnotation(annotationClazz.getSimpleName())
+			+ BuildHelper.buildAttribute(attributeClass, attribute));
 	return this;
     }
 
@@ -247,14 +253,14 @@ public class ObjectStructure {
 
 	public ObjectConstructor(ScopeValues constructorScope, String constructorName) {
 	    this.constructorScope = constructorScope;
-	    this.constructorName = BuildUtils.cleanSpaces(constructorName);
+	    this.constructorName = BuildHelper.cleanSpaces(constructorName);
 	    this.constructorAnnotations = "";
 	    this.constructorBody = "";
 	}
 
 	public ObjectConstructor addArgument(String argumentClass, String argumentName) {
 	    constructorArguments
-		    .add(Pair.of(BuildUtils.cleanSpaces(argumentClass), BuildUtils.cleanSpaces(argumentName)));
+		    .add(Pair.of(BuildHelper.cleanSpaces(argumentClass), BuildHelper.cleanSpaces(argumentName)));
 	    return this;
 	}
 
@@ -264,25 +270,25 @@ public class ObjectStructure {
 	}
 
 	public ObjectConstructor addBodyLine(String constructorBody) {
-	    this.constructorBody += BuildUtils.buildBodyLine(constructorBody);
+	    this.constructorBody += BuildHelper.buildBodyLine(constructorBody);
 	    return this;
 	}
 
 	public ObjectConstructor addAnnotation(String constructorAnnotation) {
-	    constructorAnnotations += BuildUtils.buildAnnotation(constructorAnnotation);
+	    constructorAnnotations += BuildHelper.buildAnnotation(constructorAnnotation);
 	    return this;
 	}
 
 	public ObjectConstructor addAnnotation(Class<?> clazz) {
 	    if (clazz != null) {
-		this.constructorAnnotations += BuildUtils.buildAnnotation(clazz.getSimpleName());
+		this.constructorAnnotations += BuildHelper.buildAnnotation(clazz.getSimpleName());
 	    }
 	    return this;
 	}
 
 	@Override
 	public String toString() {
-	    return BuildUtils.buildConstructor(constructorAnnotations, constructorScope, constructorName,
+	    return BuildHelper.buildConstructor(constructorAnnotations, constructorScope, constructorName,
 		    constructorArguments, constructorBody);
 	}
 
@@ -330,15 +336,16 @@ public class ObjectStructure {
 
 	public ObjectFunction(ScopeValues functionScope, String functionName, String functionReturnType) {
 	    this.functionScope = functionScope;
-	    this.functionName = BuildUtils.cleanSpaces(functionName);
-	    this.functionReturnType = BuildUtils.cleanSpaces(functionReturnType);
+	    this.functionName = BuildHelper.cleanSpaces(functionName);
+	    this.functionReturnType = BuildHelper.cleanSpaces(functionReturnType);
 	    this.functionBody = "";
 	    this.functionAnnotations = "";
 	    this.functionReturn = "";
 	}
 
 	public ObjectFunction addArgument(String argumentClass, String argumentName) {
-	    functionArguments.add(Pair.of(BuildUtils.cleanSpaces(argumentClass), BuildUtils.cleanSpaces(argumentName)));
+	    functionArguments
+		    .add(Pair.of(BuildHelper.cleanSpaces(argumentClass), BuildHelper.cleanSpaces(argumentName)));
 	    return this;
 	}
 
@@ -348,30 +355,30 @@ public class ObjectStructure {
 	}
 
 	public ObjectFunction addBodyLine(String functionBody) {
-	    this.functionBody += BuildUtils.buildBodyLine(functionBody);
+	    this.functionBody += BuildHelper.buildBodyLine(functionBody);
 	    return this;
 	}
 
 	public ObjectFunction addAnnotation(String functionAnnotation) {
-	    this.functionAnnotations += BuildUtils.buildAnnotation(functionAnnotation);
+	    this.functionAnnotations += BuildHelper.buildAnnotation(functionAnnotation);
 	    return this;
 	}
 
 	public ObjectFunction addAnnotation(Class<?> clazz) {
 	    if (clazz != null) {
-		this.functionAnnotations += BuildUtils.buildAnnotation(clazz.getSimpleName());
+		this.functionAnnotations += BuildHelper.buildAnnotation(clazz.getSimpleName());
 	    }
 	    return this;
 	}
 
 	public ObjectFunction setFunctionReturn(String functionReturn) {
-	    this.functionReturn = BuildUtils.cleanSpaces(functionReturn);
+	    this.functionReturn = BuildHelper.cleanSpaces(functionReturn);
 	    return this;
 	}
 
 	@Override
 	public String toString() {
-	    return BuildUtils.buildFunction(functionAnnotations, functionScope, functionReturnType, functionName,
+	    return BuildHelper.buildFunction(functionAnnotations, functionScope, functionReturnType, functionName,
 		    functionArguments, functionBody, functionReturn);
 	}
 
@@ -424,13 +431,13 @@ public class ObjectStructure {
 
 	public ObjectMethod(ScopeValues methodScope, String methodName) {
 	    this.methodScope = methodScope;
-	    this.methodName = BuildUtils.cleanSpaces(methodName);
+	    this.methodName = BuildHelper.cleanSpaces(methodName);
 	    this.methodBody = "";
 	    this.methodAnnotations = "";
 	}
 
 	public ObjectMethod addArgument(String argumentClass, String argumentName) {
-	    methodArguments.add(Pair.of(BuildUtils.cleanSpaces(argumentClass), BuildUtils.cleanSpaces(argumentName)));
+	    methodArguments.add(Pair.of(BuildHelper.cleanSpaces(argumentClass), BuildHelper.cleanSpaces(argumentName)));
 	    return this;
 	}
 
@@ -440,25 +447,25 @@ public class ObjectStructure {
 	}
 
 	public ObjectMethod addBodyLine(String methodBody) {
-	    this.methodBody += BuildUtils.buildBodyLine(methodBody);
+	    this.methodBody += BuildHelper.buildBodyLine(methodBody);
 	    return this;
 	}
 
 	public ObjectMethod addAnnotation(String methodAnnotation) {
-	    this.methodAnnotations += BuildUtils.buildAnnotation(methodAnnotation);
+	    this.methodAnnotations += BuildHelper.buildAnnotation(methodAnnotation);
 	    return this;
 	}
 
 	public ObjectMethod addAnnotation(Class<?> clazz) {
 	    if (clazz != null) {
-		this.methodAnnotations += BuildUtils.buildAnnotation(clazz.getSimpleName());
+		this.methodAnnotations += BuildHelper.buildAnnotation(clazz.getSimpleName());
 	    }
 	    return this;
 	}
 
 	@Override
 	public String toString() {
-	    return BuildUtils.buildMethod(methodAnnotations, methodScope, methodName, methodArguments, methodBody);
+	    return BuildHelper.buildMethod(methodAnnotations, methodScope, methodName, methodArguments, methodBody);
 	}
 
 	@Override
