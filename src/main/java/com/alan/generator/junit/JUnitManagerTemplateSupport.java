@@ -7,8 +7,9 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.core.annotation.AnnotationAttributes;
 
 import com.alan.generator.common.AbstractTemplateSupportProvider;
+import com.alan.generator.common.util.GeneratorUtil;
+import com.alan.generator.junit.structure.JUnitManagerStructure;
 import com.cmeza.sdgenerator.util.CustomResourceLoader;
-import com.cmeza.sdgenerator.util.GeneratorUtils;
 import com.cmeza.sdgenerator.util.Tuple;
 
 public class JUnitManagerTemplateSupport extends AbstractTemplateSupportProvider {
@@ -31,8 +32,8 @@ public class JUnitManagerTemplateSupport extends AbstractTemplateSupportProvider
     }
 
     private void findFilterRepositories() {
-	String testCasePath = GeneratorUtils.getAbsolutePath() + testCasePackage.replace(".", "/");
-	File[] testCaseFiles = GeneratorUtils.getFileList(testCasePath, testCasePostfix);
+	String testCasePath = GeneratorUtil.getMainFolderAbsolutePath() + testCasePackage.replace(".", "/");
+	File[] testCaseFiles = GeneratorUtil.getFileList(testCasePath, testCasePostfix);
 	this.setIncludeFilter(Arrays.asList(testCaseFiles));
 	this.setIncludeFilterPostfix(testCasePostfix);
     }

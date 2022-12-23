@@ -15,7 +15,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 
-import com.cmeza.sdgenerator.util.GeneratorUtils;
+import com.alan.generator.common.util.GeneratorUtil;
 import com.cmeza.sdgenerator.util.SDLogger;
 import com.google.common.collect.Iterables;
 
@@ -56,7 +56,7 @@ public class JPAGeneratorManager implements ImportBeanDefinitionRegistrar, Envir
 
                 Collection<BeanDefinition> candidates = configurationSource.getCandidates(resourceLoader);
 
-                String absolutePath = GeneratorUtils.getAbsolutePath();
+                String absolutePath = GeneratorUtil.getMainFolderAbsolutePath();
                 if (absolutePath == null) {
                     SDLogger.addError("Could not define the absolute path!");
                     return;

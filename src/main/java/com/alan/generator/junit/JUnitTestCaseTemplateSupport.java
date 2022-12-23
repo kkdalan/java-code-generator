@@ -6,6 +6,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.core.annotation.AnnotationAttributes;
 
 import com.alan.generator.common.AbstractTemplateSupportProvider;
+import com.alan.generator.junit.structure.JUnitTestCaseStructure;
 import com.cmeza.sdgenerator.util.CustomResourceLoader;
 import com.cmeza.sdgenerator.util.Tuple;
 

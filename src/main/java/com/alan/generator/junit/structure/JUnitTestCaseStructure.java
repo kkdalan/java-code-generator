@@ -1,7 +1,5 @@
-package com.alan.generator.junit;
+package com.alan.generator.junit.structure;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import com.alan.generator.common.support.BuildHelper;
@@ -20,17 +18,6 @@ public class JUnitTestCaseStructure {
     private CustomResourceLoader loader;
     private JavaCodeBuilder javaCodeBuilder;
     private Integer error = 0;
-    private final static Map<Class<?>, Class<?>> mapConvert = new HashMap<>();
-    static {
-        mapConvert.put(boolean.class, Boolean.class);
-        mapConvert.put(byte.class, Byte.class);
-        mapConvert.put(short.class, Short.class);
-        mapConvert.put(char.class, Character.class);
-        mapConvert.put(int.class, Integer.class);
-        mapConvert.put(long.class, Long.class);
-        mapConvert.put(float.class, Float.class);
-        mapConvert.put(double.class, Double.class);
-    }
 
     public JUnitTestCaseStructure(String testCasePackage, String entityName, String entityClass, String postfix, CustomResourceLoader loader, Set<String> additionalExtends) {
 	buildJavaCode(testCasePackage, entityName, entityClass, postfix, loader, additionalExtends);
@@ -105,66 +92,4 @@ public class JUnitTestCaseStructure {
         return new Tuple<>(javaCodeBuilder == null ? null : javaCodeBuilder.build(), error);
     }
     
-//    @SuppressWarnings("unchecked")
-//    private Tuple<String, Boolean> getEntityId(String entityClass){
-//        try {
-//            Class<?> entity;
-//            if (loader == null) {
-//                entity = Class.forName(entityClass);
-//            } else {
-//                entity = loader.getUrlClassLoader().loadClass(entityClass);
-//            }
-//
-//            while (entity != null){
-//                for (Field field : entity.getDeclaredFields()) {
-//                    if (field.isAnnotationPresent(Id.class) || field.isAnnotationPresent(EmbeddedId.class)) {
-//                        Class<?> dataType = field.getType();
-//                        if (field.getType().isPrimitive()) {
-//                            dataType = this.primitiveToObject(field.getType());
-//                        }
-//                        return new Tuple<>(dataType.getName(), this.isCustomType(dataType));
-//                    }
-//                }
-//
-//                for (Method method : entity.getDeclaredMethods()) {
-//                    if (!method.getReturnType().equals(Void.TYPE) && (method.isAnnotationPresent(Id.class) || method.isAnnotationPresent(EmbeddedId.class))) {
-//                        Class<?> dataType = method.getReturnType();
-//                        if (method.getReturnType().isPrimitive()) {
-//                            dataType = this.primitiveToObject(method.getReturnType());
-//                        }
-//                        return new Tuple<>(dataType.getName(), this.isCustomType(dataType));
-//                    }
-//                }
-//                entity = entity.getSuperclass();
-//            }
-//
-//            error = SDLogger.addError("Repository Error: Primary key not found in " + GeneratorUtil.getSimpleClassName(entityClass) + ".java");
-//            return null;
-//        } catch (GeneratorException ex) {
-//            error = SDLogger.addError(ex.getMessage());
-//            return null;
-//        } catch (Exception e) {
-//            error = SDLogger.addError("Repository Error: Failed to access entity " + GeneratorUtil.getSimpleClassName(entityClass) + ".java");
-//            return null;
-//        }
-//    }
-//
-//    private boolean isCustomType(Class<?> clazz) {
-//        return  !clazz.isAssignableFrom(Boolean.class) &&
-//                !clazz.isAssignableFrom(Byte.class) &&
-//                !clazz.isAssignableFrom(String.class) &&
-//                !clazz.isAssignableFrom(Integer.class) &&
-//                !clazz.isAssignableFrom(Long.class) &&
-//                !clazz.isAssignableFrom(Float.class) &&
-//                !clazz.isAssignableFrom(Double.class);
-//    }
-//
-//    private Class<?> primitiveToObject(Class<?> clazz) {
-//        Class<?> convertResult = mapConvert.get(clazz);
-//        if (convertResult == null) {
-//            throw new GeneratorException("Type parameter '" + clazz.getName() + "' is incorrect");
-//        }
-//        return convertResult;
-//    }
-
 }

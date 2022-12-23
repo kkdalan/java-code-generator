@@ -1,4 +1,4 @@
-package com.alan.generator.junit;
+package com.alan.generator.junit.structure;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

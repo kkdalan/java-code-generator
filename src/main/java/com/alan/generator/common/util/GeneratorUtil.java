@@ -31,8 +31,16 @@ public class GeneratorUtil {
 	}
     }
 
-    public static String getPackageAbsolutePath(String strPackage) {
+    public static String getMainPackageAbsolutePath(String strPackage) {
 	String absolute = getMainFolderAbsolutePath();
+	if (absolute == null) {
+	    return null;
+	}
+	return absolute + strPackage.replace(".", "/");
+    }
+    
+    public static String getTestPackageAbsolutePath(String strPackage) {
+	String absolute = getTestFolderAbsolutePath();
 	if (absolute == null) {
 	    return null;
 	}
