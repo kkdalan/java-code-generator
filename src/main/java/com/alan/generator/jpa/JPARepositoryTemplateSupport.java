@@ -1,11 +1,11 @@
-package com.alan.unit.jpa;
+package com.alan.generator.jpa;
 
 import java.util.Set;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.core.annotation.AnnotationAttributes;
 
-import com.alan.unit.common.AbstractTemplateSupportProvider;
+import com.alan.generator.common.AbstractTemplateSupportProvider;
 import com.cmeza.sdgenerator.util.CustomResourceLoader;
 import com.cmeza.sdgenerator.util.Tuple;
 

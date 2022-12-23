@@ -1,4 +1,4 @@
-package com.alan.unit.common;
+package com.alan.generator.common;
 
 import java.io.BufferedWriter;
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.alan.unit.jpa;
+package com.alan.generator.jpa;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -47,10 +47,9 @@ public class JPARepositoryStructure {
                     .addImport(entityClass)
                     .addImport("org.springframework.data.jpa.repository.JpaRepository")
                     .addImport("org.springframework.data.jpa.repository.JpaSpecificationExecutor")
-                    .addImport("org.springframework.data.repository.NoRepositoryBean")
+                    .addImport("org.springframework.stereotype.Repository")
                     .addImport(entityId.right() ? entityId.left() : "")
                     .addAnnotation("Repository")
-                    .addAnnotation("NoRepositoryBean")
                     .addExtend("JpaRepository", entityName, GeneratorUtils.getSimpleClassName(entityId.left()))
                     .addExtend("JpaSpecificationExecutor", entityName);
 

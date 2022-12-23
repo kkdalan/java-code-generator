@@ -1,4 +1,4 @@
-package com.alan.unit.jpa;
+package com.alan.generator.jpa;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;

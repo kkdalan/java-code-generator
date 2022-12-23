@@ -1,4 +1,4 @@
-package com.alan.unit.jpa;
+package com.alan.generator.jpa;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
