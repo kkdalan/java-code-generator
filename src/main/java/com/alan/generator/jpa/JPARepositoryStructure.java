@@ -10,8 +10,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 
 import com.alan.generator.common.support.JavaCodeBuilder;
+import com.alan.generator.common.support.ObjectStructure;
 import com.alan.generator.common.util.GeneratorUtil;
-import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure;
 import com.cmeza.sdgenerator.support.maker.values.ObjectTypeValues;
 import com.cmeza.sdgenerator.support.maker.values.ScopeValues;
 import com.cmeza.sdgenerator.util.CustomResourceLoader;

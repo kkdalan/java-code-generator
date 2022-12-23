@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.alan.generator.junit.JUnitGenerator;
 
 @JUnitGenerator(
-	entityPackage = "com.alan.generator.junit.testcase.target",
+	entityPackage = {"com.alan.generator.junit.testcase"},
         testCasePackage = "com.alan.generator.junit.testcase",
-        managerPackage = "com.alan.generator.junit.testcase",
+//        managerPackage = "com.alan.generator.junit.testcase.controller",
         testCasePostfix = "TestCase",
-        managerPostfix = "Test",
+//        managerPostfix = "Test",
         additionalExtends = {},
         onlyAnnotations = false,
         debug = false,

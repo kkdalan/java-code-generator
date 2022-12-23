@@ -4,9 +4,9 @@ import java.util.Set;
 
 import com.alan.generator.common.support.BuildHelper;
 import com.alan.generator.common.support.JavaCodeBuilder;
+import com.alan.generator.common.support.ObjectStructure;
+import com.alan.generator.common.support.ObjectStructure.ObjectMethod;
 import com.alan.generator.common.util.GeneratorUtil;
-import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure;
-import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure.ObjectMethod;
 import com.cmeza.sdgenerator.support.maker.values.ObjectTypeValues;
 import com.cmeza.sdgenerator.support.maker.values.ScopeValues;
 import com.cmeza.sdgenerator.util.CustomResourceLoader;
@@ -15,9 +15,9 @@ import com.cmeza.sdgenerator.util.Tuple;
 
 public class JUnitTestCaseStructure {
 
-    private CustomResourceLoader loader;
-    private JavaCodeBuilder javaCodeBuilder;
-    private Integer error = 0;
+    protected CustomResourceLoader loader;
+    protected JavaCodeBuilder javaCodeBuilder;
+    protected Integer error = 0;
 
     public JUnitTestCaseStructure(String testCasePackage, String entityName, String entityClass, String postfix, CustomResourceLoader loader, Set<String> additionalExtends) {
 	buildJavaCode(testCasePackage, entityName, entityClass, postfix, loader, additionalExtends);

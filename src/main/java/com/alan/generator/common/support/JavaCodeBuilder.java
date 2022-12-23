@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.alan.generator.constant.Constant;
-import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure;
 import com.cmeza.sdgenerator.support.maker.values.CommonValues;
 
 public class JavaCodeBuilder {

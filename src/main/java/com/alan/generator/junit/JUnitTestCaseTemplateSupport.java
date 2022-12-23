@@ -6,7 +6,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.core.annotation.AnnotationAttributes;
 
 import com.alan.generator.common.AbstractTemplateSupportProvider;
-import com.alan.generator.junit.structure.JUnitTestCaseStructure;
+import com.alan.generator.junit.structure.ControllerTestCaseStructure;
 import com.cmeza.sdgenerator.util.CustomResourceLoader;
 import com.cmeza.sdgenerator.util.Tuple;
 
@@ -29,8 +29,13 @@ public class JUnitTestCaseTemplateSupport extends AbstractTemplateSupportProvide
     @Override
     protected Tuple<String, Integer> getContentFromTemplate(String testCasePackage, String simpleClassName,
 	    String postfix, BeanDefinition beanDefinition, String additionalPackage) {
-	return new JUnitTestCaseStructure(testCasePackage, simpleClassName, beanDefinition.getBeanClassName(),
-		postfix, loader, additionalExtends).build();
+	
+	boolean isController = true;
+	if (isController) {
+	    return new ControllerTestCaseStructure(testCasePackage, simpleClassName, beanDefinition.getBeanClassName(),
+		    postfix, loader, additionalExtends).build();
+	}
+	return null;
     }
 
     @Override

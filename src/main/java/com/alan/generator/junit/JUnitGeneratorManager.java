@@ -56,7 +56,8 @@ public class JUnitGeneratorManager implements ImportBeanDefinitionRegistrar, Env
 
                 Collection<BeanDefinition> candidates = configurationSource.getCandidates(resourceLoader);
 
-                String absolutePath = GeneratorUtil.getMainFolderAbsolutePath();
+//                String absolutePath = GeneratorUtil.getMainFolderAbsolutePath();
+                String absolutePath = GeneratorUtil.getTestFolderAbsolutePath();
                 if (absolutePath == null) {
                     SDLogger.addError("Could not define the absolute path!");
                     return;

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alan.generator.common.support.JavaCodeBuilder;
+import com.alan.generator.common.support.ObjectStructure;
 import com.alan.generator.common.util.GeneratorUtil;
-import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure;
 import com.cmeza.sdgenerator.support.maker.values.ExpressionValues;
 import com.cmeza.sdgenerator.support.maker.values.ObjectTypeValues;
 import com.cmeza.sdgenerator.support.maker.values.ObjectValues;
