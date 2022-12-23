@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alan.generator.common.support.JavaCodeBuilder;
-import com.cmeza.sdgenerator.support.maker.builder.ObjectBuilder;
+import com.alan.generator.common.util.GeneratorUtil;
 import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure;
 import com.cmeza.sdgenerator.support.maker.values.ExpressionValues;
 import com.cmeza.sdgenerator.support.maker.values.ObjectTypeValues;
 import com.cmeza.sdgenerator.support.maker.values.ObjectValues;
 import com.cmeza.sdgenerator.support.maker.values.ScopeValues;
-import com.cmeza.sdgenerator.util.GeneratorUtils;
 import com.cmeza.sdgenerator.util.Tuple;
 
 public class JPAManagerStructure {
@@ -21,7 +20,7 @@ public class JPAManagerStructure {
 
         String managerName = entityName + postfix;
         String repositoryName = entityName + repositoryPostfix;
-        String repositoryNameAttribute = GeneratorUtils.decapitalize(repositoryName);
+        String repositoryNameAttribute = GeneratorUtil.decapitalize(repositoryName);
 
         this.javaCodeBuilder = new JavaCodeBuilder(new ObjectStructure(managerPackage, ScopeValues.PUBLIC, ObjectTypeValues.CLASS, managerName)
                 .addImport(repositoryPackage + "." + (additionalPackage.isEmpty() ? "" : (additionalPackage + ".")) + repositoryName)

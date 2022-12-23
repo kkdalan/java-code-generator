@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alan.generator.common.support.JavaCodeBuilder;
+import com.alan.generator.common.util.GeneratorUtil;
 import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure;
 import com.cmeza.sdgenerator.support.maker.values.ExpressionValues;
 import com.cmeza.sdgenerator.support.maker.values.ObjectTypeValues;
 import com.cmeza.sdgenerator.support.maker.values.ObjectValues;
 import com.cmeza.sdgenerator.support.maker.values.ScopeValues;
-import com.cmeza.sdgenerator.util.GeneratorUtils;
 import com.cmeza.sdgenerator.util.Tuple;
 
 public class JUnitManagerStructure {
@@ -20,7 +20,7 @@ public class JUnitManagerStructure {
 
         String managerName = entityName + postfix;
         String testCaseName = entityName + testCasePostfix;
-        String testCaseNameAttribute = GeneratorUtils.decapitalize(testCaseName);
+        String testCaseNameAttribute = GeneratorUtil.decapitalize(testCaseName);
 
         this.javaCodeBuilder = new JavaCodeBuilder(new ObjectStructure(managerPackage, ScopeValues.PUBLIC, ObjectTypeValues.CLASS, managerName)
                 .addImport(testCasePackage + "." + (additionalPackage.isEmpty() ? "" : (additionalPackage + ".")) + testCaseName)

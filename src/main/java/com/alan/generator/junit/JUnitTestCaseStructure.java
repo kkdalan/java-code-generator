@@ -6,12 +6,12 @@ import java.util.Set;
 
 import com.alan.generator.common.support.BuildHelper;
 import com.alan.generator.common.support.JavaCodeBuilder;
+import com.alan.generator.common.util.GeneratorUtil;
 import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure;
 import com.cmeza.sdgenerator.support.maker.builder.ObjectStructure.ObjectMethod;
 import com.cmeza.sdgenerator.support.maker.values.ObjectTypeValues;
 import com.cmeza.sdgenerator.support.maker.values.ScopeValues;
 import com.cmeza.sdgenerator.util.CustomResourceLoader;
-import com.cmeza.sdgenerator.util.GeneratorUtils;
 import com.cmeza.sdgenerator.util.Tuple;
 
 
@@ -52,13 +52,13 @@ public class JUnitTestCaseStructure {
             	    .addMethod(createTearDown())
   		    .addMethod(createTestCase("given_when_then"));
 //                    .addAnnotation("Repository")
-//                    .addExtend("JpaRepository", entityName, GeneratorUtils.getSimpleClassName(entityId.left()))
+//                    .addExtend("JpaRepository", entityName, GeneratorUtil.getSimpleClassName(entityId.left()))
 //                    .addExtend("JpaSpecificationExecutor", entityName);
 
             if (additionalExtends != null) {
                 for(String additionalExtend : additionalExtends) {
                     objectStructure.addImport(additionalExtend);
-                    objectStructure.addExtend(GeneratorUtils.getSimpleClassName(additionalExtend), entityName);
+                    objectStructure.addExtend(GeneratorUtil.getSimpleClassName(additionalExtend), entityName);
                 }
             }
             this.javaCodeBuilder = new JavaCodeBuilder(objectStructure);
@@ -138,13 +138,13 @@ public class JUnitTestCaseStructure {
 //                entity = entity.getSuperclass();
 //            }
 //
-//            error = SDLogger.addError("Repository Error: Primary key not found in " + GeneratorUtils.getSimpleClassName(entityClass) + ".java");
+//            error = SDLogger.addError("Repository Error: Primary key not found in " + GeneratorUtil.getSimpleClassName(entityClass) + ".java");
 //            return null;
 //        } catch (GeneratorException ex) {
 //            error = SDLogger.addError(ex.getMessage());
 //            return null;
 //        } catch (Exception e) {
-//            error = SDLogger.addError("Repository Error: Failed to access entity " + GeneratorUtils.getSimpleClassName(entityClass) + ".java");
+//            error = SDLogger.addError("Repository Error: Failed to access entity " + GeneratorUtil.getSimpleClassName(entityClass) + ".java");
 //            return null;
 //        }
 //    }
