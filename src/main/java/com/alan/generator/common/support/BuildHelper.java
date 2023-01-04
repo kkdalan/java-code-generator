@@ -46,6 +46,11 @@ public class BuildHelper {
 
 	return cleanSpaces(objectClass);
     }
+    
+    public static String buildThrows(String throwsString) {
+	return (throwsString.contains("throws") ? CommonValues.COMA + cleanSpaces(throwsString)
+		: "throws" + CommonValues.SPACE + cleanSpaces(throwsString));
+    }
 
     public static String buildAnnotation(String annotation) {
 	return (annotation.startsWith(ExpressionValues.AT.getValue()) ? cleanSpaces(annotation)
@@ -67,21 +72,27 @@ public class BuildHelper {
 
     public static String buildConstructor(String annotations, ScopeValues scope, String objectName,
 	    Set<Pair<Object, Object>> arguments, String body) {
-	return buildStructure(annotations, scope, null, objectName, arguments, body, null);
+	return buildStructure(annotations, scope, null, objectName, "", arguments, body, null);
     }
 
     public static String buildFunction(String annotations, ScopeValues scope, String returnStructure, String objectName,
 	    Set<Pair<Object, Object>> arguments, String body, String returnString) {
-	return buildStructure(annotations, scope, returnStructure, objectName, arguments, body, returnString);
+	return buildStructure(annotations, scope, returnStructure, objectName, "", arguments, body, returnString);
     }
 
     public static String buildMethod(String annotations, ScopeValues scope, String objectName,
 	    Set<Pair<Object, Object>> arguments, String body) {
-	return buildStructure(annotations, scope, "void", objectName, arguments, body, null);
+	return buildStructure(annotations, scope, "void", objectName, "", arguments, body, null);
+    }
+    
+    public static String buildMethod(String annotations, ScopeValues scope, String objectName, String objectThrows,
+	    Set<Pair<Object, Object>> arguments, String body) {
+	return buildStructure(annotations, scope, "void", objectName, objectThrows, arguments, body, null);
     }
 
     public static String buildStructure(String annotations, ScopeValues scope, String returnStructure,
-	    String objectName, Set<Pair<Object, Object>> arguments, String body, String returnString) {
+	    String objectName, String objectThrows, Set<Pair<Object, Object>> arguments, String body, String returnString) {
+	
 	StringBuilder constructor = new StringBuilder();
 	if (annotations != null && !annotations.isEmpty()) {
 	    constructor.append(CommonValues.TAB.getValue());
@@ -104,7 +115,7 @@ public class BuildHelper {
 
 	}
 
-	constructor.append(CommonValues.PARENTHESIS_END).append(CommonValues.KEY_START)
+	constructor.append(CommonValues.PARENTHESIS_END).append(objectThrows).append(CommonValues.KEY_START)
 		.append(body.isEmpty() ? CommonValues.NEWLINE : body)
 		.append(returnString == null ? "" : returnString.isEmpty() ? "" : buildReturn(returnString))
 		.append(CommonValues.TAB).append(CommonValues.KEY_END);

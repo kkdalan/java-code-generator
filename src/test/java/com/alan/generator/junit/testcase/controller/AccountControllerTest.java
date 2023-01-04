@@ -30,7 +30,8 @@ public class AccountControllerTest extends BaseControllerTest {
 	Mockito.when(accountService.findByName(Mockito.anyString())).thenReturn(account);
 	// WHEN
 	RequestBuilder reqeust = MockMvcRequestBuilders.get("/account/findByName")
-		.contentType(MediaType.APPLICATION_JSON).param("name", "alanhuang");
+		.contentType(MediaType.APPLICATION_JSON)
+		.param("name", "alanhuang");
 	// THEN
 	mockMvc.perform(reqeust).andExpect(MockMvcResultMatchers.status().isOk());
     }

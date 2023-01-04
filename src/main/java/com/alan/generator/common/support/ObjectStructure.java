@@ -428,14 +428,16 @@ public class ObjectStructure {
 	private Set<Pair<Object, Object>> methodArguments = new LinkedHashSet<>();
 	private String methodBody;
 	private String methodAnnotations;
-
+	private String methodThrows;
+	
 	public ObjectMethod(ScopeValues methodScope, String methodName) {
 	    this.methodScope = methodScope;
 	    this.methodName = BuildHelper.cleanSpaces(methodName);
 	    this.methodBody = "";
 	    this.methodAnnotations = "";
+	    this.methodThrows = "";
 	}
-
+	
 	public ObjectMethod addArgument(String argumentClass, String argumentName) {
 	    methodArguments.add(Pair.of(BuildHelper.cleanSpaces(argumentClass), BuildHelper.cleanSpaces(argumentName)));
 	    return this;
@@ -462,10 +464,22 @@ public class ObjectStructure {
 	    }
 	    return this;
 	}
+	
+	public ObjectMethod addThrows(String methodThrows) {
+	    this.methodThrows += BuildHelper.buildThrows(methodThrows);
+	    return this;
+	}
+
+	public ObjectMethod addThrows(Class<?> clazz) {
+	    if (clazz != null) {
+		this.methodThrows += BuildHelper.buildThrows(clazz.getSimpleName());
+	    }
+	    return this;
+	}
 
 	@Override
 	public String toString() {
-	    return BuildHelper.buildMethod(methodAnnotations, methodScope, methodName, methodArguments, methodBody);
+	    return BuildHelper.buildMethod(methodAnnotations, methodScope, methodName, methodThrows, methodArguments, methodBody);
 	}
 
 	@Override
