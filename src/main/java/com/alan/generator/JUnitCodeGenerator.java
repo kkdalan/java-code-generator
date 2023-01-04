@@ -2,6 +2,7 @@ package com.alan.generator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import com.alan.generator.junit.JUnitGenerator;
 
@@ -20,7 +21,8 @@ import com.alan.generator.junit.JUnitGenerator;
 public class JUnitCodeGenerator {
 
     public static void main(String[] args) {
-	SpringApplication.run(JUnitCodeGenerator.class);
+	ConfigurableApplicationContext ctx = SpringApplication.run(JUnitCodeGenerator.class);
+	ctx.close();
     }
 
 }
